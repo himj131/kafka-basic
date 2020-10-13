@@ -17,5 +17,9 @@ public class KafkaProducerApplication {
         //비동기 전송
         KafkaProducerRunner asyncProducer = new KafkaAsyncProducer();
         asyncProducer.run();
+
+        // for-loop을 사용한 메세지 전송
+        KafkaProducerRunner forLoopProducer = new KafkaForloopProducer();
+        forLoopProducer.run();
     }
 }
