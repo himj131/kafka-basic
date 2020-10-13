@@ -19,9 +19,9 @@ public class KafkaAsyncProducer implements KafkaProducerRunner {
 
         Producer<String, String> producer = new KafkaProducer<>(props);
         try {
-            Future<RecordMetadata> metadataFuture = producer.send(new ProducerRecord<String, String>("mjtest", "message from syncProducer"));
+            Future<RecordMetadata> metadataFuture = producer.send(new ProducerRecord<String, String>("mjtest", "message from asyncProducer"));
             RecordMetadata recordMetadata = metadataFuture.get();
-            System.out.println("Partition: %d, Offset: %d", recordMetadata.partition(), recordMetadata.offset());
+            System.out.printf("Partition: %d, Offset: %d", recordMetadata.partition(), recordMetadata.offset());
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
