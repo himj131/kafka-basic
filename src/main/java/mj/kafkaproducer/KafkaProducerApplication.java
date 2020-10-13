@@ -11,8 +11,11 @@ public class KafkaProducerApplication {
         ackProducer.run();
 
         //동기전송
-        KafkaProducerRunner syncProducer = new KafkaAsyncProducer();
+        KafkaProducerRunner syncProducer = new KafkaSyncProducer();
         syncProducer.run();
-        
+
+        //비동기 전송
+        KafkaProducerRunner asyncProducer = new KafkaAsyncProducer();
+        asyncProducer.run();
     }
 }

@@ -9,7 +9,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 import java.util.concurrent.Future;
 
-public class KafkaAsyncProducer implements KafkaProducerRunner {
+public class KafkaSyncProducer implements KafkaProducerRunner {
     @Override
     public void run() {
         Properties props = new Properties();
@@ -19,9 +19,9 @@ public class KafkaAsyncProducer implements KafkaProducerRunner {
 
         Producer<String, String> producer = new KafkaProducer<>(props);
         try {
-            Future<RecordMetadata> metadataFuture =
-                    producer.send(new ProducerRecord<String, String>("mjtest", "message from asyncProducer"),
-                            new MJCallback());
+            Future<RecordMetadata> metadataFuture = producer.send(new ProducerRecord<String, String>("mjtest", "message from syncProducer"));
+            RecordMetadata recordMetadata = metadataFuture.get();
+            System.out.printf("Partition: %d, Offset: %d", recordMetadata.partition(), recordMetadata.offset());
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
