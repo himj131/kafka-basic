@@ -1,4 +1,4 @@
-package mj.kafkaproducer.multipartitions;
+package mj.kafka.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -7,8 +7,9 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
 
-public class KafkaProducerKey {
-    public static void main(String[] args) {
+public class KafkaForloopProducer implements KafkaProducerRunner{
+    @Override
+    public void run() {
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
         props.put("acks", "1");
@@ -17,20 +18,10 @@ public class KafkaProducerKey {
         props.put("value.serializer", StringSerializer.class);
 
         Producer<String, String> producer = new KafkaProducer<>(props);
-        String topicName = "mjtest2";
-        String oddKey = "1";
-        String evenKey = "2";
-
         for (int i = 1; i < 11; i++) {
-            if(i % 2 == 1) {
-                producer.send(new ProducerRecord<>(topicName,
-                        oddKey, String.format("%d - message From partition oddKey producer - key = " + oddKey, i)));
-            } else {
-                producer.send(new ProducerRecord<>(topicName,
-                        evenKey, String.format("%d - message From partition evenKey producer - key = " + evenKey, i)));
-            }
+            producer.send(new ProducerRecord<>("mjtest", "message from for-loop producer"));
         }
-
         producer.close();
+
     }
 }

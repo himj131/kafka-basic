@@ -1,15 +1,13 @@
-package mj.kafkaproducer;
+package mj.kafka.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
-import java.util.concurrent.Future;
 
-public class KafkaAsyncProducer implements KafkaProducerRunner {
+public class KafkaNonAckProducer implements KafkaProducerRunner {
     @Override
     public void run() {
         Properties props = new Properties();
@@ -19,13 +17,11 @@ public class KafkaAsyncProducer implements KafkaProducerRunner {
 
         Producer<String, String> producer = new KafkaProducer<>(props);
         try {
-            Future<RecordMetadata> metadataFuture =
-                    producer.send(new ProducerRecord<String, String>("mjtest", "message from asyncProducer"),
-                            new MJCallback());
+            producer.send(new ProducerRecord<String, String>("mjtest", "message from non ack producer"));
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
             producer.close();
-        }
+        };
     }
 }
